@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="translate_docs",
+    name="scripts",
     version="0.1.0",
     description="...",
     packages=find_packages(),
@@ -13,7 +13,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "docs_cli = scripts.cli.docs_cli:cli"
+            "cli = scripts.cli.cli:cli"
         ]
     },
     author="Jason Joy Atsu Winmorre",

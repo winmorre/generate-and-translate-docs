@@ -9,11 +9,11 @@ from .docs import *
 
 
 @click.group(name="docs-cli")
-def docs_cli():
+def cli():
     pass
 
 
-@docs_cli.command(name="new-lng")
+@cli.command(name="new-lng")
 @click.argument("lng-code", help="2-letter Language code something like es,en,pt")
 def new_lng(lng_code: str):
     """
@@ -66,7 +66,7 @@ def new_lng(lng_code: str):
     update_languages(lng_code=None)
 
 
-@docs_cli.command()
+@cli.command()
 @click.argument("lng-code", help="2-letter Language code something like es,en,pt")
 def build_lng(lng_code: str):
     """
@@ -106,7 +106,7 @@ def build_lng(lng_code: str):
     click.secho(f"Successfully built docs for: {lng_code}")
 
 
-@docs_cli.command(name="build-all")
+@cli.command(name="build-all")
 def build_all():
     """
     Build mkdocs site for en and then build each language inside, end result is located at directory ./site/

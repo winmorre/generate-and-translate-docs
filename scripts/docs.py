@@ -205,7 +205,6 @@ def get_key_section(
     return new_section
 
 
-
 def get_file_to_nav_map(nav: list) -> Dict[str, Tuple[str, ...]]:
     file_to_nav = {}
     for item in nav:
