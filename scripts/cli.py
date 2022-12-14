@@ -50,11 +50,8 @@ def new_lng(lng_code: str):
     new_config_docs_path = new_path / "docs"
     new_config_docs_path.mkdir()
 
-    default_index_page_path = DEFAULT_DOCS_PATH / "docs" / "index.md"
-    new_index_path: Path = new_config_docs_path / "index.md"
-    default_index_content = default_index_page_path.read_text(encoding="utf-8")
-
-    translate_file_content(output_path=new_index_path, content=default_index_content, lng_code=lng_code)
+    default_file_names = get_all_md_filenames()
+    create_new_files(filenames=default_file_names,new_config_docs_path=new_config_docs_path,lng_code=lng_code)
 
     # copy image files to new location
     shutil.copytree(DEFAULT_DOCS_PATH / "docs" / "img", new_config_docs_path / "img")

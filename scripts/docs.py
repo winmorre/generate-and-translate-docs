@@ -1,11 +1,13 @@
+import os
 import shutil
+from os import walk
 from typing import Dict, List, Optional, Tuple, Any
 
 import click
 import yaml
 from mkdocs import utils
 
-from .translate import *
+from scripts.translate import *
 
 MKDOCS_FILE_NAME = "mkdocs.yml"
 DOCS_PATH = Path("docs")
@@ -180,7 +182,9 @@ def update_config(lng_code: str):
             use_name = alternate_dict[url]
             new_alternate.append({"link": url, "name": use_name})
 
-        config["nav"][1] = {"Languages": languages}
+        languages_translate = translation(text="Languages", dest_lng=lng_code)
+
+        config["nav"][1] = {languages_translate or "Languages": languages}
         config["extra"]["alternate"] = new_alternate
 
         config_path.write_text(
@@ -256,3 +260,29 @@ def update_languages(
                 update_single_lang(lang_path.name)
     else:
         update_single_lang(lng_code)
+
+
+def get_all_md_filenames():
+    path = DEFAULT_DOCS_PATH / "docs"
+    absolute_path = os.path.abspath(path).split("/scripts")
+    absolute_path = "".join(absolute_path)
+
+    filenames = next(walk(str(absolute_path)), (None, None, []))[2]
+
+    return filenames
+
+
+def create_new_files(filenames: List[str | None], new_config_docs_path: Path, lng_code: str) -> None:
+    if len(filenames) == 0:
+        default_index_page_path = DEFAULT_DOCS_PATH / "docs" / "index.md"
+        new_index_path: Path = new_config_docs_path / "index.md"
+        default_index_content = default_index_page_path.read_text(encoding="utf-8")
+        translate_file_content(output_path=new_index_path, content=default_index_content, lng_code=lng_code)
+    else:
+        for name in filenames:
+            default_page_file_path = DEFAULT_DOCS_PATH / "docs" / str(name)
+            new_page_file_path = new_config_docs_path / str(name)
+            default_file_content = default_page_file_path.read_text(encoding="utf-8")
+            translate_file_content(output_path=new_page_file_path, content=default_file_content, lng_code=lng_code)
+
+        click.echo(f"New files created for {','.join(filenames)}")
