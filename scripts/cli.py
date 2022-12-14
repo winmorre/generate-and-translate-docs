@@ -9,11 +9,11 @@ from docs import *
 
 
 @click.command(name="new-lng")
-@click.option("--lang-code", help="Use not more than 5 letter language code like: es, pt_BR, en")
+@click.option("--lng-code", help="2-letter Language code something like es,en,pt")
 def new_lng(lng_code: str):
     """
     Generate a new docs translation directory for the language LANG.
-    LANG should be a 2 or 5 letter language code, like: en, es, de, pt, pt_BR, etc.
+    lng-code should be a 2  letter language code, like: en, es, de, pt, etc.
     """
 
     new_path: Path = DOCS_PATH / lng_code
@@ -22,9 +22,20 @@ def new_lng(lng_code: str):
         raise click.Abort
 
     new_path.mkdir()
-    new_config: Dict[str, Any] = get_default_language_configs(language=lng_code)
+    new_config: Dict[str, Any] = get_default_language_configs(lng_code=lng_code)
     new_config_path: Path = Path(new_path) / MKDOCS_FILE_NAME
-    # TODO: translate before writing to the new file
+
+    lng_nav = new_config["nav"]
+    translated_export_lng_nav = []
+
+    for n in lng_nav:
+        for k, v in n.items():
+            translated_key = translation(text=k, dest_lng=lng_code)
+            translated_export_lng_nav.append({translated_key: v})
+
+    new_config["nav"] = translated_export_lng_nav
+    new_config["site_description"] = translation(text=new_config["site_description"], dest_lng=lng_code)
+
     new_config_path.write_text(
         yaml.dump(new_config, sort_keys=False, width=200, allow_unicode=True),
         encoding="utf-8",
@@ -36,9 +47,8 @@ def new_lng(lng_code: str):
     default_index_page_path = DEFAULT_DOCS_PATH / "docs" / "index.md"
     new_index_path: Path = new_config_docs_path / "index.md"
     default_index_content = default_index_page_path.read_text(encoding="utf-8")
-    new_index_content = f"{MISSING_TRANSLATION_SNIPPET}\n\n{default_index_content}"
 
-    new_index_path.write_text(new_index_content, encoding="utf-8")
+    translate_file_content(output_path=new_index_path, content=default_index_content, lng_code=lng_code)
 
     # copy image files to new location
     shutil.copytree(DEFAULT_DOCS_PATH / "docs" / "img", new_config_docs_path / "img")
@@ -51,7 +61,7 @@ def new_lng(lng_code: str):
 
 
 @click.command()
-@click.option("--lng-code", help="Language code something like es,en,pt_BR")
+@click.option("--lng-code", help="2-letter Language code something like es,en,pt")
 def build_lng(lng_code: str):
     """
     Build the docs for a langauge, filling missing pages with translation notification
@@ -74,7 +84,14 @@ def build_lng(lng_code: str):
     key_to_section = generate_key_to_section(file_to_nav=file_to_nav, use_lng_file_to_nav=use_lng_file_to_nav)
     new_nav = update_new_lng_nav(key_to_section=key_to_section)
 
-    save_new_lang_nav(lng_config=lng_config, lng_nav=lng_nav, nav=nav, new_nav=new_nav, build_lng_path=build_lng_path)
+    save_new_lang_nav(
+        lng_config=lng_config,
+        lng_nav=lng_nav,
+        nav=nav,
+        new_nav=new_nav,
+        build_lng_path=build_lng_path,
+        lng_code=lng_code,
+    )
 
     current_dir = os.getcwd()
     os.chdir(build_lng_path)
@@ -98,7 +115,7 @@ def build_all():
     os.chdir(current_dir)
 
     lngs = []
-    for lng in get_lang_paths():
+    for lng in get_lng_paths():
         if lng == DEFAULT_DOCS_PATH or not lng.is_dir():
             continue
         lngs.append(lng.name)

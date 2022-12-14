@@ -1,10 +1,11 @@
 import shutil
-from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 
 import click
 import yaml
 from mkdocs import utils
+
+from translate import *
 
 MKDOCS_FILE_NAME = "mkdocs.yml"
 DOCS_PATH = Path("docs")
@@ -31,17 +32,24 @@ def complete_existing_language(incomplete: str) -> Optional[str]:
             yield language_path.name
 
 
-def get_default_language_configs(language: str) -> Dict[str, Any]:
+def get_default_language_configs(lng_code: str) -> Dict[str, Any]:
     default_config = get_default_docs_config()
     url_base = "https://docs.com/"
 
     new_config = default_config.copy()
-    new_config["site_url"] = default_config["site_url"] + f"{language}/"
+    new_config["site_url"] = default_config["site_url"] + f"{lng_code}/"
     new_config["theme"]["logo"] = url_base + default_config["theme"]["logo"]
     new_config["theme"]["favicon"] = default_config["theme"]["favicon"]
-    new_config["theme"]["language"] = language
-    new_config["theme"]["locale"] = language
+    new_config["theme"]["language"] = lng_code
+    new_config["theme"]["locale"] = lng_code
     new_config["nav"] = default_config["nav"][:2]
+
+    config_plugins = default_config["plugins"]
+    for p in config_plugins:
+        if type(p) is dict and "search" in p:
+            p["search"]["lang"] = lng_code
+
+    new_config["plugins"] = config_plugins
 
     return new_config
 
@@ -102,7 +110,7 @@ def generate_key_to_section(file_to_nav: Dict[str, Tuple[str, ...]],
 
 
 def update_use_lng_file_to_nav(
-        lng_nav: List, file_to_nav: Dict[str, Tuple[str, ...]], build_lng_path: Path,
+        lng_nav: List, file_to_nav: Dict[str, Tuple[str, ...]], build_lng_path: Path, lng_code: str
 ) -> Dict[str, Tuple[str, ...]]:
     use_lng_file_to_nav = get_file_to_nav_map(lng_nav[2:])
 
@@ -115,17 +123,18 @@ def update_use_lng_file_to_nav(
 
         if not lng_file_path.is_file():
             default_lng_text = default_file_path.read_text(encoding="utf-8")
-            lng_text = get_text_with_translate_missing(default_lng_text)
-            lng_file_path.write_text(lng_text, encoding="utf-8")
+            # Translate default content to new language
+            translate_file_content(output_path=lng_file_path, content=default_lng_text, lng_code=lng_code)
             file_key = file_to_nav[file]
             use_lng_file_to_nav[file] = file_key
     return use_lng_file_to_nav
 
 
-def save_new_lang_nav(lng_config, lng_nav, nav, new_nav, build_lng_path):
+def save_new_lang_nav(lng_config, lng_nav, nav, new_nav, build_lng_path, lng_code: str):
     export_lng_nav = [lng_nav[0], nav[1]] + new_nav
 
     lng_config["nav"] = export_lng_nav
+
     build_lng_config_path: Path = build_lng_path / MKDOCS_FILE_NAME
     build_lng_config_path.write_text(
         yaml.dump(lng_config, sort_keys=False, width=200, allow_unicode=True)
@@ -247,7 +256,7 @@ def update_languages(
 ):
     """
     Update the mkdocs.yml file Languages section including all the available languages.
-    The LANG argument is a 2-letter or 5-letter language code. If it's not provided, update all the
+    The LANG argument is a 2-letter language code. If it's not provided, update all the
     mkdocs.yml files (for all the languages).
     """
     if lng_code is None:
