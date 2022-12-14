@@ -5,11 +5,16 @@ from multiprocessing import Pool
 
 from mkdocs.commands.serve import serve
 
-from docs import *
+from .docs import *
 
 
-@click.command(name="new-lng")
-@click.option("--lng-code", help="2-letter Language code something like es,en,pt")
+@click.group(name="docs-cli")
+def docs_cli():
+    pass
+
+
+@docs_cli.command(name="new-lng")
+@click.argument("lng-code", help="2-letter Language code something like es,en,pt")
 def new_lng(lng_code: str):
     """
     Generate a new docs translation directory for the language LANG.
@@ -26,6 +31,7 @@ def new_lng(lng_code: str):
     new_config_path: Path = Path(new_path) / MKDOCS_FILE_NAME
 
     lng_nav = new_config["nav"]
+
     translated_export_lng_nav = []
 
     for n in lng_nav:
@@ -60,8 +66,8 @@ def new_lng(lng_code: str):
     update_languages(lng_code=None)
 
 
-@click.command()
-@click.option("--lng-code", help="2-letter Language code something like es,en,pt")
+@docs_cli.command()
+@click.argument("lng-code", help="2-letter Language code something like es,en,pt")
 def build_lng(lng_code: str):
     """
     Build the docs for a langauge, filling missing pages with translation notification
@@ -100,7 +106,7 @@ def build_lng(lng_code: str):
     click.secho(f"Successfully built docs for: {lng_code}")
 
 
-@click.command(name="build-all")
+@docs_cli.command(name="build-all")
 def build_all():
     """
     Build mkdocs site for en and then build each language inside, end result is located at directory ./site/
@@ -124,7 +130,7 @@ def build_all():
         p.map(build_lng, lngs)
 
 
-@click.command()
+@docs_cli.command()
 def serve():
     """
     A quick server to preview a built site with translations.
@@ -144,8 +150,8 @@ def serve():
     server.serve_forever()
 
 
-@click.command()
-@click.option("--lng-code", help="")
+@docs_cli.command()
+@click.option("--lng-code", help="2-letter Language code something like es,en,pt")
 def live(lng_code: str):
     """
     Serve with livereload a docs site for a specific language.
@@ -160,17 +166,3 @@ def live(lng_code: str):
     lng_path: Path = DOCS_PATH / lng_code
     os.chdir(lng_path)
     serve(dev_addr="127.0.0.1:8009")
-
-
-@click.group(name="docs-cli")
-def docs_cli():
-    pass
-
-
-docs_cli.add_command(live)
-docs_cli.add_command(serve)
-docs_cli.add_command(build_all)
-docs_cli.add_command(build_lng)
-
-if __name__ == "__main__":
-    docs_cli()

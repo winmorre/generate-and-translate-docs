@@ -5,7 +5,7 @@ import click
 import yaml
 from mkdocs import utils
 
-from translate import *
+from .translate import *
 
 MKDOCS_FILE_NAME = "mkdocs.yml"
 DOCS_PATH = Path("docs")
@@ -204,12 +204,6 @@ def get_key_section(
     key_to_section[key] = new_section
     return new_section
 
-
-def get_text_with_translate_missing(text: str) -> str:
-    lines = text.splitlines()
-    lines.insert(1, MISSING_TRANSLATION_SNIPPET)
-    new_text = "\n".join(lines)
-    return new_text
 
 
 def get_file_to_nav_map(nav: list) -> Dict[str, Tuple[str, ...]]:
