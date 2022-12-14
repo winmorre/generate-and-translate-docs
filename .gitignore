@@ -1,3 +1,6 @@
 .venv
 .idea
 docs_build/
+scripts.egg-info/
+__pypackages__/
+__pycache__/

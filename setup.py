@@ -10,10 +10,12 @@ setup(
         "click",
         "mkdocs",
         "googletrans==3.1.0a0",
+        "mkdocs-material",
+        "mkdocs-material-extensions"
     ],
     entry_points={
         "console_scripts": [
-            "cli = scripts.cli.cli:cli"
+            "cli=scripts.cli:cli"
         ]
     },
     author="Jason Joy Atsu Winmorre",

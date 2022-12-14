@@ -14,8 +14,6 @@ DEFAULT_DOCS_PATH = Path("docs/en")
 
 DEFAULT_DOCS_CONFIG_PATH = DEFAULT_DOCS_PATH / MKDOCS_FILE_NAME
 
-MISSING_TRANSLATION_SNIPPET = """ """
-
 
 def get_default_docs_config() -> Dict:
     return utils.yaml_load(DEFAULT_DOCS_CONFIG_PATH.read_text(encoding="utf-8"))

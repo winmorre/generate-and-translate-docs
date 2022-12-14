@@ -14,7 +14,7 @@ def cli():
 
 
 @cli.command(name="new-lng")
-@click.argument("lng-code", help="2-letter Language code something like es,en,pt")
+@click.argument("lng-code")
 def new_lng(lng_code: str):
     """
     Generate a new docs translation directory for the language LANG.
@@ -67,10 +67,11 @@ def new_lng(lng_code: str):
 
 
 @cli.command()
-@click.argument("lng-code", help="2-letter Language code something like es,en,pt")
+@click.argument("lng-code")
 def build_lng(lng_code: str):
     """
     Build the docs for a langauge, filling missing pages with translation notification
+    lng-code is 2-letter Language code something like es,en,pt
     """
 
     build_lng_path, dist_path, lng_path = build_paths(lng_code=lng_code)
@@ -130,7 +131,7 @@ def build_all():
         p.map(build_lng, lngs)
 
 
-@docs_cli.command()
+@cli.command()
 def serve():
     """
     A quick server to preview a built site with translations.
@@ -150,7 +151,7 @@ def serve():
     server.serve_forever()
 
 
-@docs_cli.command()
+@cli.command()
 @click.option("--lng-code", help="2-letter Language code something like es,en,pt")
 def live(lng_code: str):
     """
