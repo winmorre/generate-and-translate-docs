@@ -11,6 +11,7 @@ nav:
   - en: /
   - fr: /fr/
   - pt: /pt/
+  - sn: /sn/
 theme:
   features:
   - search.suggest
@@ -79,3 +80,5 @@ extra:
     name: fr
   - link: /pt/
     name: pt
+  - link: /sn/
+    name: sn

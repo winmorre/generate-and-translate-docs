@@ -14,7 +14,7 @@ def new_lng(lng_code: str = typer.Argument(..., callback=lang_callback)):
     LANG should be a 2 or 5 letter language code, like: en, es, de, pt, pt_BR, etc.
     """
     new_path: Path = Path("docs") / lng_code
-    # don't generate docs for a language if it already exist
+    # don't generate docs for a language if it already exists
     if new_path.exists():
         typer.echo(f"The language was already created: {lng_code}")
         raise typer.Abort()

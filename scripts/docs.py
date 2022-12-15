@@ -59,7 +59,7 @@ def get_base_lng_config(lng_code: str):
     return new_config
 
 
-def create_new_files(filenames: List[str | None], new_config_docs_path: Path, lng_code: str) -> None:
+def create_new_files(filenames: List, new_config_docs_path: Path, lng_code: str) -> None:
     if len(filenames) == 0:
         default_index_page_path = DEFAULT_DOCS_PATH / "docs" / "index.md"
         new_index_path: Path = new_config_docs_path / "index.md"
