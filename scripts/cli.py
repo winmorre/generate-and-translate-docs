@@ -4,10 +4,10 @@ from multiprocessing import Pool
 
 from docs import *
 
-app = typer.Typer()
+cli = typer.Typer()
 
 
-@app.command()
+@cli.command()
 def new_lng(lng_code: str = typer.Argument(..., callback=lang_callback)):
     """
     Generate a new docs translation directory for the language LANG.
@@ -19,7 +19,7 @@ def new_lng(lng_code: str = typer.Argument(..., callback=lang_callback)):
         typer.echo(f"The language was already created: {lng_code}")
         raise typer.Abort()
     new_path.mkdir()
-    new_config = get_base_lang_config(lng_code)
+    new_config = get_base_lng_config(lng_code)
     new_config_path: Path = Path(new_path) / MKDOCS_NAME
 
     # translate the site description
@@ -49,7 +49,7 @@ def new_lng(lng_code: str = typer.Argument(..., callback=lang_callback)):
     translate_navs(lng_code=lng_code)
 
 
-@app.command()
+@cli.command()
 def build_lng(
         lng_code: str = typer.Argument(
             ..., callback=lang_callback, autocompletion=complete_existing_lang
@@ -87,7 +87,7 @@ def build_lng(
     typer.secho(f"Successfully built docs for: {lng_code}", color=typer.colors.GREEN)
 
 
-@app.command()
+@cli.command()
 def build_all():
     """
     Build mkdocs site for en, and then build each language inside, end result is located
@@ -110,7 +110,7 @@ def build_all():
         p.map(build_lng, lngs)
 
 
-@app.command()
+@cli.command()
 def update_languages(
         lang=typer.Argument(
             None, callback=lang_callback, autocompletion=complete_existing_lang
@@ -131,7 +131,7 @@ def update_languages(
         update_single_lng(lang)
 
 
-@app.command()
+@cli.command()
 def serve():
     """
     A quick server to preview a built site with translations.
@@ -150,7 +150,7 @@ def serve():
     server.serve_forever()
 
 
-@app.command()
+@cli.command()
 def live(
         lng_code: str = typer.Argument(
             None, callback=lang_callback, autocompletion=complete_existing_lang
@@ -171,4 +171,4 @@ def live(
 
 
 if __name__ == "__main__":
-    app()
+    cli()
