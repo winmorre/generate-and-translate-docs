@@ -9,9 +9,9 @@ nav:
 - Home: index.md
 - Languages:
   - en: /
+  - bg: /bg/
   - fr: /fr/
-  - pt: /pt/
-  - sn: /sn/
+  - it: /it/
 - Support: support.md
 - Release Notes: release_notes.md
 theme:
@@ -78,9 +78,9 @@ extra:
   alternate:
   - link: /
     name: en - English
+  - link: /bg/
+    name: bg
   - link: /fr/
     name: fr
-  - link: /pt/
-    name: pt
-  - link: /sn/
-    name: sn
+  - link: /it/
+    name: it

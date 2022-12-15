@@ -9,9 +9,9 @@ nav:
 - Maison: index.md
 - Languages:
   - en: /
+  - bg: /bg/
   - fr: /fr/
-  - pt: /pt/
-  - sn: /sn/
+  - it: /it/
 theme:
   features:
   - search.suggest
@@ -76,9 +76,9 @@ extra:
   alternate:
   - link: /
     name: en - English
+  - link: /bg/
+    name: bg
   - link: /fr/
     name: fr
-  - link: /pt/
-    name: pt
-  - link: /sn/
-    name: sn
+  - link: /it/
+    name: it

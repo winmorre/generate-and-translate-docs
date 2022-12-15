@@ -1,17 +1,17 @@
 site_name: Auto Translate - 0.1.1
-site_url: http://127.0.0.1:8009/sn/
+site_url: http://127.0.0.1:8009/bg/
 site_description: Project Docs auto generation and translation
 site_author: Jason Joy Atsu Winmorre
 repo_name: winmorre/generate-and-translate-docs
 repo_url: https://github.com/winmorre/generate-and-translate-docs
 edit_uri: https://github.com/winmorre/generate-and-translate-docs/blob/main/README.md
 nav:
-- Kumba: index.md
-- Mitauro:
+- У дома: index.md
+- Languages:
   - en: /
+  - bg: /bg/
   - fr: /fr/
-  - pt: /pt/
-  - sn: /sn/
+  - it: /it/
 theme:
   features:
   - search.suggest
@@ -19,8 +19,8 @@ theme:
   - search.share
   - content.code.annotate
   name: material
-  language: sn
-  locale: sn
+  language: bg
+  locale: bg
   logo: https://dynaconf.com/img/logo_square_d.svg
   favicon: https://dynaconf.com/img/favicon.ico
   palette:
@@ -76,9 +76,9 @@ extra:
   alternate:
   - link: /
     name: en - English
+  - link: /bg/
+    name: bg
   - link: /fr/
     name: fr
-  - link: /pt/
-    name: pt
-  - link: /sn/
-    name: sn
+  - link: /it/
+    name: it

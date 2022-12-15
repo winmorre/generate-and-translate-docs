@@ -122,9 +122,7 @@ def update_languages(
     mkdocs.yml files (for all the languages).
     """
     if lang is None:
-        typer.echo(f"Lang Paths {get_lang_paths()}")
         for lang_path in get_lang_paths():
-            typer.echo(f"Lang pah Name ::  {lang_path.name}")
             if lang_path.is_dir():
                 update_single_lng(lang_path.name)
     else:
