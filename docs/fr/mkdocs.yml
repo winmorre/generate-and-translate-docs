@@ -1,5 +1,5 @@
 site_name: Auto Translate - 0.1.1
-site_url: https://auto-docs.comfr/fr/
+site_url: http://127.0.0.1:8009/fr/
 site_description: Project Docs auto generation and translation
 site_author: Jason Joy Atsu Winmorre
 repo_name: winmorre/generate-and-translate-docs
@@ -7,9 +7,10 @@ repo_url: https://github.com/winmorre/generate-and-translate-docs
 edit_uri: https://github.com/winmorre/generate-and-translate-docs/blob/main/README.md
 nav:
 - Maison: index.md
-- Langues:
+- Languages:
   - en: /
   - fr: /fr/
+  - pt: /pt/
 theme:
   features:
   - search.suggest
@@ -18,8 +19,9 @@ theme:
   - content.code.annotate
   name: material
   language: fr
-  logo: https://docs.com/img/logo_square_d.svg
-  favicon: img/favicon.ico
+  locale: fr
+  logo: https://dynaconf.com/img/logo_square_d.svg
+  favicon: https://dynaconf.com/img/favicon.ico
   palette:
   - scheme: default
     media: '(prefers-color-scheme: light)'
@@ -35,7 +37,6 @@ theme:
     toggle:
       icon: material/lightbulb
       name: Switch to light mode
-  locale: fr
 markdown_extensions:
 - pymdownx.details
 - pymdownx.emoji:
@@ -57,9 +58,8 @@ markdown_extensions:
 - toc:
     permalink: true
 plugins:
-- git-revision-date
 - search:
-    lang: fr
+    lang: en
     prebuild_index: true
 extra:
   disqus: dynaconf
@@ -77,3 +77,5 @@ extra:
     name: en - English
   - link: /fr/
     name: fr
+  - link: /pt/
+    name: pt

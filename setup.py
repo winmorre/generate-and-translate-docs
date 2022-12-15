@@ -11,7 +11,8 @@ setup(
         "mkdocs",
         "googletrans==3.1.0a0",
         "mkdocs-material",
-        "mkdocs-material-extensions"
+        "mkdocs-material-extensions",
+        "mkdocs-git-revision-date-localized-plugin"
     ],
     entry_points={
         "console_scripts": [

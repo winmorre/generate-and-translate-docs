@@ -4,3 +4,6 @@ docs_build/
 scripts.egg-info/
 __pypackages__/
 __pycache__/
+site/
+
+scripts/__pycache__/

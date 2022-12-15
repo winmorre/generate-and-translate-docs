@@ -30,28 +30,28 @@ pip install --editable .
 > Running the code below will create a new language translation document.
 
 ```python
-    docs-cli new-lng "your-language-code" 
+    cli new-lng "your-language-code" 
 ```
 
 > To build the document(s) generated for a single language, you can run the below command:
 
 ```python
-    docs-cli build-lng "your-language-code"
+    cli build-lng "your-language-code"
 ```
 
 > To build all the documents generated for all languages supported in you project, run the below command 
 
 ```python
-docs-cli build-all 
+cli build-all 
 ```
 
 > To serve the built docs, run the below command
 ```python
-docs-cli serve
+cli serve
 ```
 > To serve docs for s single language, use the command below
 ```python
-docs-cli live --lng-code="your-language-to-serve"
+cli live --lng-code="your-language-to-serve"
 ```
 
 
