@@ -14,6 +14,7 @@ def new_lng(lng_code: str = typer.Argument(..., callback=lang_callback)):
     LANG should be a 2 or 5 letter language code, like: en, es, de, pt, pt_BR, etc.
     """
     new_path: Path = Path("docs") / lng_code
+    # don't generate docs for a language if it already exist
     if new_path.exists():
         typer.echo(f"The language was already created: {lng_code}")
         raise typer.Abort()
@@ -21,6 +22,7 @@ def new_lng(lng_code: str = typer.Argument(..., callback=lang_callback)):
     new_config = get_base_lang_config(lng_code)
     new_config_path: Path = Path(new_path) / MKDOCS_NAME
 
+    # translate the site description
     new_config["site_description"] = translation(text=new_config["site_description"], dest_lng=lng_code)
 
     new_config_path.write_text(
@@ -34,12 +36,16 @@ def new_lng(lng_code: str = typer.Argument(..., callback=lang_callback)):
     file_names = get_all_md_filenames()
     create_new_files(filenames=file_names, new_config_docs_path=new_config_docs_path, lng_code=lng_code)
 
+    # copy all other items to the new generated docs location
     shutil.copytree(DEFAULT_DOCS_PATH / "docs" / "img", new_config_docs_path / "img")
     new_overrides_gitignore_path = new_path / "overrides" / ".gitignore"
     new_overrides_gitignore_path.parent.mkdir(parents=True, exist_ok=True)
     new_overrides_gitignore_path.write_text("")
+
     typer.secho(f"Successfully initialized: {new_path}", color=typer.colors.GREEN)
+    # update the languages section
     update_languages(lang=None)
+    # translate the nav section
     translate_navs(lng_code=lng_code)
 
 

@@ -4,7 +4,7 @@
 
 This project is about translation of project Docs to multiple languages. 
 Project Docs are mostly create initially in one language the team agrees on.Large distributed teams may have the need to translate this documentation for readers.
-This can be a daunting task for developers. Now with this project, developers can easily and quickly generate and translate these Docs in other languages using the command line or running the scripts in this repo.
+This can be a tedious task for developers. Now with this project, developers can easily and quickly generate and translate these Docs in other languages using the command line or running the scripts in this repo.
 
 This project makes use of [Mkdocs ](https://www.mkdocs.org/getting-started/) to create the project documentation
 
