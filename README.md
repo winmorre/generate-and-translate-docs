@@ -2,7 +2,7 @@
 
 ### Description
 
-This project is about translaton of project Docs to multiple languages. 
+This project is about translation of project Docs to multiple languages. 
 Project Docs are mostly create initially in one language the team agrees on.Large distributed teams may have the need to translate this documentation for readers.
 This can be a daunting task for developers. Now with this project, developers can easily and quickly generate and translate these Docs in other languages using the command line or running the scripts in this repo.
 
@@ -11,7 +11,7 @@ This project makes use of [Mkdocs ](https://www.mkdocs.org/getting-started/) to 
 ### Get started
 
 * Create a virtual environment
-```python
+```py
     python -m venv venv-name
 ```
 
@@ -20,38 +20,36 @@ This project makes use of [Mkdocs ](https://www.mkdocs.org/getting-started/) to 
     source venv-name/bin/ativate
 ```
 
-* Run setup tool
-```python
-pip install --editable . 
-```
+
 
 ### Project commands
 
 > Running the code below will create a new language translation document.
 
-```python
-    cli new-lng "your-language-code" 
+```py
+    python ./scripts/cli.py new-lng "your-language-code" 
 ```
 
 > To build the document(s) generated for a single language, you can run the below command:
 
-```python
-    cli build-lng "your-language-code"
+```py
+    python ./scripts/cli.py build-lng "your-language-code"
 ```
 
 > To build all the documents generated for all languages supported in you project, run the below command 
 
-```python
-cli build-all 
+```py
+python ./scripts/cli.py build-all 
 ```
 
 > To serve the built docs, run the below command
-```python
-cli serve
+```py
+python ./scripts/cli.py serve
 ```
+
 > To serve docs for s single language, use the command below
-```python
-cli live --lng-code="your-language-to-serve"
+```py
+python ./scripts/cli.py live "your-language-to-serve"
 ```
 
 
@@ -59,4 +57,5 @@ cli live --lng-code="your-language-to-serve"
 
 * mkdocs
 * click
+* typer
 * googletrans==3.1.0a0

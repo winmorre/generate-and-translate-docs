@@ -146,7 +146,7 @@ def serve():
 
 @app.command()
 def live(
-        lang: str = typer.Argument(
+        lng_code: str = typer.Argument(
             None, callback=lang_callback, autocompletion=complete_existing_lang
         )
 ):
@@ -157,9 +157,9 @@ def live(
     Takes an optional LANG argument with the name of the language to serve, by default
     en.
     """
-    if lang is None:
-        lang = "en"
-    lang_path: Path = DOCS_PATH / lang
+    if lng_code is None:
+        lng_code = "en"
+    lang_path: Path = DOCS_PATH / lng_code
     os.chdir(lang_path)
     mkdocs.commands.serve.serve(dev_addr="127.0.0.1:8009")
 
