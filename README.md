@@ -20,7 +20,31 @@ This project makes use of [Mkdocs ](https://www.mkdocs.org/getting-started/) to 
     source venv-name/bin/ativate
 ```
 
+### Generate new docs project
+Use mkdocs command below to generate a new project.
+```python
+mkdocs new .
+```
 
+Your current project structure should like this
+```toml
+ docs\
+    index.md
+mkdocs.yml
+```
+
+Create a folder for the default langauge for your project. the folder name should the ISO-639 code for the chosen default langauge. 
+In this case you can use `en` which is the ISO-639 code for English.
+
+Your project structure should now like this
+```toml
+docs/
+    en/
+        docs/
+            index.md
+            ...
+        mkdocs.yml
+```
 
 ### Project commands
 
